@@ -1,55 +1,31 @@
-// C++ program for activity selection problem
-// when input activities may not be sorted.
-#include <bits/stdc++.h>
+/*
+IF ACTIVITIES ARE SORTED ACCORDING TO FINISH TIME
+*/
+#include <iostream>
+#include <vector>
 using namespace std;
 
-// A job has a start time, finish time and profit.
-struct Activitiy {
-	int start, finish;
-};
+void maxActivities(int s[], int f[], int n){
+	vector<int> ans;
 
-// A utility function that is used for sorting
-// activities according to finish time
-bool activityCompare(Activitiy s1, Activitiy s2)
-{
-	return (s1.finish < s2.finish);
-}
+    int i=0;
+	//first activity is always selected;
+	ans.push_back(i);
 
-// Returns count of the maximum set of activities that can
-// be done by a single person, one at a time.
-void printMaxActivities(Activitiy arr[], int n)
-{
-	// Sort jobs according to finish time
-	sort(arr, arr + n, activityCompare);
-
-	cout << "Following activities are selected :\n";
-
-	// The first activity always gets selected
-	int i = 0;
-	cout << "(" << arr[i].start << ", " << arr[i].finish
-		<< ")";
-
-	// Consider rest of the activities
-	for (int j = 1; j < n; j++) {
-		// If this activity has start time greater than or
-		// equal to the finish time of previously selected
-		// activity, then select it
-		if (arr[j].start >= arr[i].finish) {
-			cout << ", (" << arr[j].start << ", "
-				<< arr[j].finish << ")";
-			i = j;
+	for(int j=1;j<n;j++){
+		if(s[j]>f[i]){
+			ans.push_back(j);
+			i=j;
 		}
 	}
+	for(int i=0;i<ans.size();i++){
+		cout<<ans[i]<<" ";
+	}
 }
+int main(){
+	int s[]={1, 3, 0, 5, 8, 5};
+	int f[]={2, 4, 6, 7, 9, 9};
+	int n=sizeof(s)/sizeof(s[0]);
+	maxActivities(s, f, n);
 
-// Driver code
-int main()
-{
-	Activitiy arr[] = { { 5, 9 }, { 1, 2 }, { 3, 4 },
-						{ 0, 6 }, { 5, 7 }, { 8, 9 } };
-	int n = sizeof(arr) / sizeof(arr[0]);
-
-	// Function call
-	printMaxActivities(arr, n);
-	return 0;
 }
