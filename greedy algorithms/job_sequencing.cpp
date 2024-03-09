@@ -93,14 +93,19 @@ void jobScheduling(Job entries[], int n){
 
     sort(entries, entries+n, compare);
 
-    bool slot[n];
+    
     int maxdeadline=0;
     for(int i=0;i<n;i++){
         if(entries[i].deadline>maxdeadline){
             maxdeadline=entries[i].deadline;
         }
+    }
+
+    bool slot[maxdeadline];
+    for(int i=0;i<maxdeadline;i++){
         slot[i]=false;
     }
+
 
     vector<int> schedule;
     
@@ -132,4 +137,6 @@ int main(){
     int n=sizeof(entries)/sizeof(entries[0]);
     jobScheduling(entries, n);
 }
+
+//can also be implemented using priority queue
 
