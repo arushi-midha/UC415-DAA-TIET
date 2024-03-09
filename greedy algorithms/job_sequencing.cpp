@@ -11,6 +11,7 @@ Algorithm:
 3. Traverse through the profits and fit the jobs wherever they can fit in the slots
 */
 
+/*
 #include <iostream>
 #include <bits/stdc++.h>
 using namespace std;
@@ -70,4 +71,65 @@ int main(){
 
     jobScheduling(data,n);
 
+}*/
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+class Job{
+    public:
+        int id;
+        int deadline;
+        int profit;
+};
+
+bool compare(Job j1, Job j2){
+    return j1.profit>j2.profit;
 }
+
+void jobScheduling(Job entries[], int n){
+
+    sort(entries, entries+n, compare);
+
+    bool slot[n];
+    int maxdeadline=0;
+    for(int i=0;i<n;i++){
+        if(entries[i].deadline>maxdeadline){
+            maxdeadline=entries[i].deadline;
+        }
+        slot[i]=false;
+    }
+
+    vector<int> schedule;
+    
+    int maxprofit=0;
+
+    for(int i=0;i<n;i++){
+        for(int dead=entries[i].deadline;dead>0;dead--){
+            if(slot[dead-1]==false){
+                schedule.push_back(entries[i].id);
+                slot[dead-1]=true;
+                maxprofit+=entries[i].profit;
+                break;
+            }
+        }
+    }
+
+    for(int i=0;i<schedule.size();i++){
+        cout<<schedule[i]<<" ";
+    }
+    cout<<"\n max profit is "<<maxprofit;
+}
+
+int main(){
+    Job entries[]={ { 1, 2, 100 },
+                  { 2, 1, 19 },
+                  { 3, 2, 27 },
+                  { 4, 1, 25 },
+                  { 5, 3, 15 } };
+    int n=sizeof(entries)/sizeof(entries[0]);
+    jobScheduling(entries, n);
+}
+
