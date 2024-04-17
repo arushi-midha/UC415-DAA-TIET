@@ -34,3 +34,6 @@ int main(){
         cout<<arr[i]<<" ";
     }
 }
+
+//TIME COMPLEXITY IS O(N^2)
+//SPACE COMPLEXITY IS O(1)
